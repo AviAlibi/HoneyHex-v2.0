@@ -2,10 +2,10 @@ import os
 from hashlib import sha512
 from cryptography.fernet import Fernet, InvalidToken
 import base64
-import time
 from colorama import Fore, Back
 import tkinter as tk
 from tkinter import filedialog
+from time import sleep
 
 divider = '*$*%*&*'
 
@@ -24,13 +24,14 @@ def setup():
     if not os.path.exists(passwords_file_path):
         with open(passwords_file_path, 'w') as new_file:
             print("'passwords.txt' file created in the script's directory.")
-    input('Press ENTER to return to the menu... ')
+    input('\nPress ENTER to return to the menu... ')
 
 # Function to encrypt data and save it to a file
 def encrypt_and_save_data():
     global divider
     key = input('Input your password: ')
-    print('Select your password file')
+    print('A box will soon appear, please select your password file')
+    sleep(5)
     passwordFile = filedialog.askopenfile()
     for _ in range(0, 3):
         key = sha512(key.encode('UTF-8')).hexdigest()
@@ -50,17 +51,18 @@ def encrypt_and_save_data():
     # print(cipher_text)
     decrypted_text = cipher_suite.decrypt(cipher_text).decode()
     del cipher_suite
-    print(f'Decrypted Text: {decrypted_text.split(divider)}')
+    # print(f'Decrypted Text: {decrypted_text.split(divider)}')
     with open(passwordFile.name, 'a') as f:
         f.write(cipher_text.decode('utf-8') + "\n")
-    print(f"Encrypted data has been appended to {passwordFile.name}")
-    input('Press ENTER to return to the menu... ')
+    print(f"\nEncrypted data has been added to {passwordFile.name}")
+    input('\nPress ENTER to return to the menu... ')
 
 # Function to decrypt data from a file
 def decrypt_data():
     global divider
     key = input('Input your password: ')
-    print('Select your password file')
+    print('A box will soon appear, please select your password file')
+    sleep(5)
     passwordFile = filedialog.askopenfile()
     for _ in range(0, 3):
         key = sha512(key.encode('UTF-8')).hexdigest()
@@ -75,14 +77,10 @@ def decrypt_data():
             plain_text = cipher_suite.decrypt(cipher_text.encode('utf-8'))
             plain_text = plain_text.decode('utf-8').split(divider)
             print(plain_text)
-    input('Press ENTER to return to the menu... ')
+    input('\nPress ENTER to return to the menu... ')
     
 def clear_data():
     try:
-        # Create a Tkinter root window to hide the file dialog window
-        root = tk.Tk()
-        root.withdraw()
-
         # Ask the user to select a text file
         file_path = filedialog.askopenfilename(title="Select a text file to clear")
 
@@ -91,11 +89,14 @@ def clear_data():
             print("No file selected.")
             return
 
-        # Open the selected file in write mode, truncating it to remove all data
-        with open(file_path, 'w') as file:
-            file.truncate(0)
+        if os.path.exists(file_path):
+            # Open the selected file in write mode, truncating it to remove all data
+            with open(file_path, 'w') as file:
+                file.truncate(0)
 
-        print(f"Data removed from '{file_path}'.")
+            print(f"Data removed from '{file_path}'.")
+        else:
+            print(f'The file was deleted or relocated mid-operation')
     except Exception as e:
         print(f"An error occurred: {str(e)}")
         
@@ -116,7 +117,7 @@ def main():
 /  \__/  \__/  \__/  \__/  \__/  \__
 \__/  \__/  \__/  \__/  \__/  \__/  
 ''')
-            time.sleep(3)
+            sleep(3)
             firstStart = False
         os.system('cls' if os.name == 'nt' else 'clear')
         
