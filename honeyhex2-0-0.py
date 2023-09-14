@@ -3,7 +3,6 @@ from hashlib import sha512
 from cryptography.fernet import Fernet, InvalidToken
 import base64
 from colorama import Fore, Back
-import tkinter as tk
 from tkinter import filedialog
 from time import sleep
 
@@ -19,14 +18,12 @@ def is_valid_fernet_key(key):
 def setup():
     script_dir = os.path.dirname(os.path.abspath(__file__))
     passwords_file_path = os.path.join(script_dir, "passwords.txt")
-
-    # Create the 'passwords.txt' file if it doesn't exist
+    
     if not os.path.exists(passwords_file_path):
         with open(passwords_file_path, 'w') as new_file:
             print("'passwords.txt' file created in the script's directory.")
     input('\nPress ENTER to return to the menu... ')
 
-# Function to encrypt data and save it to a file
 def encrypt_and_save_data():
     global divider
     key = input('Input your password: ')
@@ -57,7 +54,6 @@ def encrypt_and_save_data():
     print(f"\nEncrypted data has been added to {passwordFile.name}")
     input('\nPress ENTER to return to the menu... ')
 
-# Function to decrypt data from a file
 def decrypt_data():
     global divider
     key = input('Input your password: ')
@@ -73,23 +69,25 @@ def decrypt_data():
     del key
     lines = passwordFile.readlines()
     for line in lines:
-            cipher_text = line.strip()  # Removing any trailing newlines
-            plain_text = cipher_suite.decrypt(cipher_text.encode('utf-8'))
+            cipher_text = line.strip()
+            try:
+                plain_text = cipher_suite.decrypt(cipher_text.encode('utf-8'))
+            except:
+                os.system('cls')
+                input('Error code: FISH')
+                exit()
             plain_text = plain_text.decode('utf-8').split(divider)
             print(plain_text)
     input('\nPress ENTER to return to the menu... ')
     
 def clear_data():
     try:
-        # Ask the user to select a text file
         file_path = filedialog.askopenfilename()
-
-        # Check if the user selected a file
+        
         if not file_path:
             print("No file selected.")
         else:
             if os.path.exists(file_path):
-                # Open the selected file in write mode, truncating it to remove all data
                 with open(file_path, 'w') as file:
                     file.truncate(0)
 
