@@ -82,21 +82,20 @@ def decrypt_data():
 def clear_data():
     try:
         # Ask the user to select a text file
-        file_path = filedialog.askopenfilename(title="Select a text file to clear")
+        file_path = filedialog.askopenfilename()
 
         # Check if the user selected a file
         if not file_path:
             print("No file selected.")
-            return
-
-        if os.path.exists(file_path):
-            # Open the selected file in write mode, truncating it to remove all data
-            with open(file_path, 'w') as file:
-                file.truncate(0)
-
-            print(f"Data removed from '{file_path}'.")
         else:
-            print(f'The file was deleted or relocated mid-operation')
+            if os.path.exists(file_path):
+                # Open the selected file in write mode, truncating it to remove all data
+                with open(file_path, 'w') as file:
+                    file.truncate(0)
+
+                print(f"Data removed from '{file_path}'.")
+            else:
+                print(f'The file was deleted or relocated mid-operation')
     except Exception as e:
         print(f"An error occurred: {str(e)}")
         
