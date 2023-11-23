@@ -5,6 +5,7 @@ import base64
 from colorama import Fore, Back
 from tkinter import filedialog
 from time import sleep
+import getpass
 
 divider = '*$*%*&*'
 
@@ -28,9 +29,9 @@ def setup():
 
 def encrypt_and_save_data():
     global divider
-    key = input('Input your password: ')
+    key = getpass.getpass('Input your password: ')
     print('A box will soon appear, please select your password file')
-    sleep(5)
+    sleep(2)
     passwordFile = filedialog.askopenfile()
     for _ in range(0, 3):
         key = sha512(key.encode('UTF-8')).hexdigest()
@@ -58,9 +59,9 @@ def encrypt_and_save_data():
 
 def decrypt_data():
     global divider
-    key = input('Input your password: ')
+    key = getpass.getpass('Input your password: ')
     print('A box will soon appear, please select your password file')
-    sleep(5)
+    sleep(2)
     passwordFile = filedialog.askopenfile()
     for _ in range(0, 3):
         key = sha512(key.encode('UTF-8')).hexdigest()
