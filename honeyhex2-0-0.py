@@ -16,12 +16,14 @@ def is_valid_fernet_key(key):
         return False
 
 def setup():
-    script_dir = os.path.dirname(os.path.abspath(__file__))
-    passwords_file_path = os.path.join(script_dir, "passwords.txt")
+    # script_dir = os.path.dirname(os.path.abspath(__file__))
+    # passwords_file_path = os.path.join(script_dir, "passwords.txt")
+    # print(passwords_file_path)
     
-    if not os.path.exists(passwords_file_path):
-        with open(passwords_file_path, 'w') as new_file:
-            print("'passwords.txt' file created in the script's directory.")
+    # if not os.path.exists(passwords_file_path):
+    #     with open(passwords_file_path, 'w') as new_file:
+    #         print("'passwords.txt' file created in the script's directory.")
+    print('Please create a txt file in whatever location of your choosing, we recommend a removable drive')
     input('\nPress ENTER to return to the menu... ')
 
 def encrypt_and_save_data():
